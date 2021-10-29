@@ -12,6 +12,8 @@ module CandyCheck
         PAYMENT_PENDING = 0
         # The payment of the subscript is received (paymentState)
         PAYMENT_RECEIVED = 1
+        PAYMENT_FREE_TRIAL = 2
+        PAYMENT_DEFERRED = 3
         # The subscription was canceled by the user (cancelReason)
         PAYMENT_CANCELED = 0
         # The payment failed during processing (cancelReason)
@@ -30,13 +32,9 @@ module CandyCheck
           overdue_days > 0
         end
 
-        # Check if in trial. This is actually not given by Google, but we assume
-        # that it is a trial going on if the paid amount is 0 and
-        # renewal is activated.
         # @return [bool]
         def trial?
-          price_is_zero = price_amount_micros == 0
-          price_is_zero && payment_received?
+          payment_state == PAYMENT_FREE_TRIAL
         end
 
         # see if payment is ok
@@ -48,7 +46,7 @@ module CandyCheck
         # see if payment is pending
         # @return [bool]
         def payment_pending?
-          payment_state == PAYMENT_PENDING
+          payment_state == PAYMENT_PENDING || payment_state == PAYMENT_DEFERRED
         end
 
         # see if payment has failed according to Google
