@@ -48,10 +48,13 @@ module CandyCheck
       end
 
       def cancelled?
-        it last_info = @pending_renewal_info&.last
-          return last_info.key?('auto_renew_status') && last_info['auto_renew_status'] == '0'
+        last_info = @pending_renewal_info&.last
+        if last_info.present?
+          last_info.key?('auto_renew_status') &&
+            last_info['auto_renew_status'] == '0'
+        else
+          false
         end
-        return false
       end
     end
   end
