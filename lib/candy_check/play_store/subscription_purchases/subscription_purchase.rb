@@ -146,6 +146,10 @@ module CandyCheck
         def canceled_at
           Time.at(user_cancellation_time_millis / 1000).utc.to_datetime if user_cancellation_time_millis
         end
+
+        def paused?
+          @subscription_purchase.auto_resume_time_millis.present?
+        end
       end
     end
   end
