@@ -49,6 +49,10 @@ module CandyCheck
           payment_state == PAYMENT_PENDING || payment_state == PAYMENT_DEFERRED
         end
 
+        def on_hold?
+          payment_state == PAYMENT_PENDING && expires_at.past?
+        end
+
         # see if payment has failed according to Google
         # @return [bool]
         def payment_failed?
