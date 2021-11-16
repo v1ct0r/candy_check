@@ -53,6 +53,10 @@ module CandyCheck
           payment_state == PAYMENT_PENDING && expires_at.past?
         end
 
+        def pending?
+          payment_state == PAYMENT_PENDING
+        end
+
         # see if payment has failed according to Google
         # @return [bool]
         def payment_failed?
