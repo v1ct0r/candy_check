@@ -29,7 +29,8 @@ module CandyCheck
         # Check if the expiration date is passed
         # @return [bool]
         def expired?
-          overdue_days > 0
+          Time.now.utc.to_datetime > expires_at
+          # overdue_days > 0
         end
 
         # @return [bool]
